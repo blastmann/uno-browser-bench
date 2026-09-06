@@ -1,0 +1,25 @@
+{
+  "platforms": {
+    "native_windows": {
+      "os": "Windows 11 x64",
+      "gpu": "NVIDIA GeForce RTX 4070 Ti SUPER",
+      "vram_mib": 16376,
+      "cuda_toolkit": "12.8.1",
+      "nvcc": "12.8.93",
+      "python": "3.10.16",
+      "pytorch": "2.11.0+cu128",
+      "transformers": "5.16.1",
+      "flash_attention": "2.8.3, source-built",
+      "triton": "triton-windows 3.8.0.post28",
+      "uno_process_group": "gloo"
+    },
+    "wsl2": {
+      "os": "Ubuntu under WSL2",
+      "python": "3.10",
+      "pytorch": "2.11.0+cu128",
+      "flash_attention": "FA2",
+      "uno_process_group": "nccl"
+    }
+  },
+  "privacy": "Hostnames, usernames, absolute paths, driver identifiers, disk details, caches, and logs are intentionally omitted from this public snapshot."
+}

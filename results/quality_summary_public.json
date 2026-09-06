@@ -1,0 +1,23 @@
+{
+  "dataset": {
+    "total_generated_rows": 200,
+    "evaluated_rows": 50,
+    "tasks": 100,
+    "domains": ["ecommerce", "search", "news", "github", "email", "social", "admin", "noise"],
+    "data_type": "deterministic synthetic and semi-realistic Browser Observation; no raw HTML"
+  },
+  "quality": {
+    "wsl_ar": {"json_valid_rate": 0.44, "schema_valid_rate": 0.17, "entity_f1": 0.0427, "intent_accuracy": 0.0, "step_f1": 0.0},
+    "wsl_uno_linear": {"json_valid_rate": 0.73, "schema_valid_rate": 0.40, "entity_f1": 0.0872, "intent_accuracy": 0.0, "step_f1": 0.0},
+    "native_windows_ar_fa2": {"json_valid_rate": 0.72, "schema_valid_rate": 0.46, "entity_f1": 0.1204, "intent_accuracy": 0.0, "step_f1": 0.0},
+    "native_windows_uno_linear": {"json_valid_rate": 0.73, "schema_valid_rate": 0.39, "entity_f1": 0.0769, "intent_accuracy": 0.0, "step_f1": 0.0}
+  },
+  "native_uno_long_trajectory_json_valid": {
+    "5": 1.0,
+    "10": 1.0,
+    "20": 0.625,
+    "50": 0.50,
+    "100": 0.625,
+    "200": 0.5625
+  }
+}

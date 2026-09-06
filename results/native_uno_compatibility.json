@@ -1,0 +1,41 @@
+{
+  "platform": "native_windows",
+  "environment": ".venv-win-ar",
+  "status": "validated_native_windows_compatibility",
+  "official_dependency_probe": {
+    "triton": "triton==3.6.0 has no win_amd64 wheel",
+    "flash_attn": "flash-attn==2.8.3 attempted source build"
+  },
+  "compatibility_probe": {
+    "triton_windows": "triton-windows==3.8.0.post28 installed and imported",
+    "cuda_toolkit": "CUDA 12.8.1 nvcc and CUDA headers installed",
+    "flash_attn_build": "flash-attn==2.8.3 built from source for torch 2.11.0+cu128 and imported; GPU kernel smoke passed",
+    "uno_llm_import": "passed",
+    "initial_runtime_blocker": "Windows PyTorch has no NCCL; official engine initialized NCCL unconditionally",
+    "compatibility_patch": "native Windows defaults to Gloo process group when NANO_VLLM_DIST_BACKEND is unset; Linux/WSL remains NCCL"
+  },
+  "generation_smoke": {
+    "status": "passed",
+    "file": "results/speed_uno_native_probe_gloo.jsonl",
+    "input_tokens": 256,
+    "output_tokens": 128,
+    "tps_mean": 221.382,
+    "peak_vram_mb": 11318.8
+  },
+  "matched_benchmark": {
+    "status": "passed",
+    "file": "results/speed_uno_native_fixed_tokens.jsonl",
+    "rows": 4,
+    "warmup": 5,
+    "runs": 30,
+    "actual_prompt_tokens": [552, 1432, 4941, 9627]
+  },
+  "semantic_smoke": {
+    "status": "passed",
+    "file": "results/uno_quality_native_fixed_50.json",
+    "items": 100,
+    "json_valid_rate": 0.73,
+    "schema_valid_rate": 0.39
+  },
+  "conclusion": "Native Uno Linear is validated through a documented Windows-only Gloo compatibility path. The patched process-group backend is required because native Windows PyTorch has no NCCL; the Uno Linear engine, source-built FlashAttention, speed benchmark, and semantic smoke all completed successfully."
+}

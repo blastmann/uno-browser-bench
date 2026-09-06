@@ -1,0 +1,35 @@
+{
+  "uno_repo_commit": "46fbdb66f026bae9c68a1e5a3f97a17c7805c778",
+  "uno_repo_url": "https://github.com/ifm-ai/uno",
+  "base_model": "IFM/K2-Horizon-0.9B",
+  "uno_adapter": "IFM/K2-Horizon-0.9B-Uno",
+  "uno_sampler": "linear",
+  "attention_backend": "fa2",
+  "diffusion_block_size": 8,
+  "warmup": 5,
+  "formal_runs": 30,
+  "speed_inputs": [
+    256,
+    1024,
+    4096,
+    8192
+  ],
+  "speed_actual_prompt_tokens": [
+    552,
+    1432,
+    4941,
+    9627
+  ],
+  "semantic_dataset_count": 200,
+  "semantic_smoke_limit": 50,
+  "ar_environment": "uno-ar / transformers 5.16.1",
+  "uno_environment": "uno-browser-bench / transformers 4.55.0",
+  "native_windows_environment": ".venv-win-ar / torch 2.11.0+cu128 / transformers 5.16.1 / flash-attn 2.8.3 source build",
+  "native_windows_uno_backend": "gloo",
+  "aligned_speed_files": {
+    "wsl_ar": "results/speed_ar_wsl_tokens.jsonl",
+    "wsl_uno": "results/speed_uno_wsl_tokens.jsonl",
+    "native_ar": "results/speed_ar_native_fa2_aligned_tokens.jsonl",
+    "native_uno": "results/speed_uno_native_fixed_tokens.jsonl"
+  }
+}

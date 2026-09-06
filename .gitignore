@@ -1,0 +1,38 @@
+# Local environments, model caches, build artifacts, and installers
+.venv-win-ar/
+.hf-cache-win/
+.triton-cache-win/
+.tools/
+environment/
+__pycache__/
+*.pyc
+*.pyd
+*.dll
+*.whl
+
+# Local logs may contain absolute paths, usernames, or build commands
+logs/
+
+# Keep only curated public result artifacts
+results/*
+!results/report.md
+!results/provenance.json
+!results/native_uno_compatibility.json
+!results/speed_summary*.csv
+!results/speed_*_tokens.jsonl
+results/speed_*.part-*.jsonl
+!results/environment_public.json
+!results/quality_summary_public.json
+
+# Vendored packaging metadata is not needed to reproduce this benchmark
+vendor/uno/*.egg-info/
+vendor/uno/**/__pycache__/
+vendor/uno/.git/
+vendor/uno/.cache/
+.vendor-uno-git-metadata-backup/
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
