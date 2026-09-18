@@ -114,7 +114,7 @@ python local_predictor/server.py
 
 插件需要 `history`、`tabs`、`webNavigation`、`storage`、`sidePanel` 权限；关闭 `collectHistory` 后只使用当前 observation。仓库不包含任何真实浏览历史、用户配置、模型缓存或绝对路径。离线插件测试结果见 [`results/browser_intent_extension_smoke.json`](results/browser_intent_extension_smoke.json)。
 
-当前状态：源码、脱敏测试、本地服务健康检查、HTTP 预测和 Edge 真机导航闭环已验证。Edge 扩展确实向 localhost 发出了脱敏 observation；`onStartup` 钩子也通过了合成状态 + 真实 localhost 服务的测试，但没有为了测试而重启用户浏览器。脱敏运行证据见 [`results/browser_intent_edge_runtime_smoke.json`](results/browser_intent_edge_runtime_smoke.json)。
+当前状态：源码、脱敏测试、本地服务健康检查、HTTP 预测和 Edge 真机导航闭环已验证。Edge 扩展确实向 localhost 发出了脱敏 observation；`onStartup` 钩子也通过了合成状态 + 真实 localhost 服务的测试。Computer Use 标签接口未能关闭 Edge 窗口，因此没有把冷启动事件写成已验证。脱敏运行证据见 [`results/browser_intent_edge_runtime_smoke.json`](results/browser_intent_edge_runtime_smoke.json)。
 
 启动钩子测试（需要本地预测服务运行）：
 

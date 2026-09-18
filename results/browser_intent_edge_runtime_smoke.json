@@ -33,5 +33,5 @@
     "network_calls": 0,
     "local_bind": "127.0.0.1"
   },
-  "interpretation": "The unpacked Edge extension is loaded and its navigation path reached the localhost predictor. The browser-startup hook also passed with synthetic state through the real localhost service; a physical restart of the user's browser was intentionally not performed."
+  "interpretation": "The unpacked Edge extension is loaded and its navigation path reached the localhost predictor. The browser-startup hook also passed with synthetic state through the real localhost service. A physical restart was attempted through the approved browser-control surface, but that surface did not close the Edge window, so no cold-start event is claimed."
 }

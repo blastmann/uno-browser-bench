@@ -42,5 +42,5 @@
 - P0：已完成，见 `data/browser_intent/audit_v2.json` 和 `data/browser_intent/contract_v2.json`。
 - P1：NanoJev smoke 已完成；原生 Windows CUDA 可执行，见 `results/browser_intent_smoke_summary.json`。
 - P1：decider 协议单元测试和公开 2B 权重本机 CUDA 推理已完成；公开 v2 test+OOD 为 68 条、整体意图准确率 92.65%，lexical ablation 为 0%，结果见 `results/browser_intent_model_diagnostics.json`。
-- P5：插件离线测试、localhost heuristic 服务、Edge 扩展加载和导航触发已完成；localhost 收到的运行证据不含原始 URL、标题或历史内容。`onStartup` 钩子已通过合成状态 + 真实 localhost 服务测试；没有为了测试而重启用户浏览器。
+- P5：插件离线测试、localhost heuristic 服务、Edge 扩展加载和导航触发已完成；localhost 收到的运行证据不含原始 URL、标题或历史内容。`onStartup` 钩子已通过合成状态 + 真实 localhost 服务测试；Computer Use 标签接口未能关闭 Edge 窗口，因此冷启动事件仍未声称完成。
 - P2/P3/P4/P6：仍需更大的独立标签集、会话级真实/半真实 trace、温度校准和真机安装后持续运行。
