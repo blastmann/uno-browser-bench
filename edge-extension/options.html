@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en">
+  <head><meta charset="utf-8" /><title>Browser Intent Settings</title></head>
+  <body style="font:14px system-ui;max-width:720px;margin:32px">
+    <h1>Browser Intent Settings</h1>
+    <p>The endpoint must be local. This extension does not upload history.</p>
+    <label>Predictor endpoint <input id="endpoint" size="48" /></label><br /><br />
+    <label><input id="enabled" type="checkbox" /> Enable predictions</label><br />
+    <label><input id="collectHistory" type="checkbox" /> Include redacted local history features</label><br /><br />
+    <button id="save">Save</button> <span id="status"></span>
+    <script src="options.js" type="module"></script>
+  </body>
+</html>

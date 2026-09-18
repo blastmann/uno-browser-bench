@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Browser Intent Preview</title>
+    <style>
+      body { font: 14px system-ui, sans-serif; margin: 16px; color: #202124; }
+      h1 { font-size: 18px; margin: 0 0 12px; }
+      .card { border: 1px solid #dadce0; border-radius: 8px; padding: 12px; margin: 10px 0; }
+      .intent { font-size: 20px; font-weight: 650; }
+      .muted { color: #5f6368; font-size: 12px; }
+      progress { width: 100%; }
+      button { padding: 6px 10px; }
+      code { word-break: break-word; }
+    </style>
+  </head>
+  <body>
+    <h1>Browser Intent Preview</h1>
+    <div id="status" class="muted">Loading local prediction…</div>
+    <div class="card">
+      <div id="intent" class="intent">—</div>
+      <div id="confidence" class="muted"></div>
+      <progress id="confidenceBar" max="1" value="0"></progress>
+      <p><button id="correct">Correct</button> <button id="wrong">Wrong</button> <span id="feedback" class="muted"></span></p>
+    </div>
+    <div class="card">
+      <div class="muted">Top candidates</div>
+      <pre id="candidates">—</pre>
+    </div>
+    <div class="card">
+      <div class="muted">Privacy</div>
+      <p>Only a redacted observation is sent to a service on 127.0.0.1. Query strings, fragments, emails, phone numbers and long numeric IDs are removed.</p>
+      <button id="refresh">Refresh</button>
+      <a href="options.html">Settings</a>
+    </div>
+    <script src="sidepanel.js" type="module"></script>
+  </body>
+</html>

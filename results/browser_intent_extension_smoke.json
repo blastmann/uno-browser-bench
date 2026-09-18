@@ -1,0 +1,12 @@
+{
+  "schema_version": "browser-intent-extension-smoke-v1",
+  "manifest_json": "passed",
+  "javascript_syntax": "passed",
+  "redaction_tests": "passed",
+  "local_http_health_and_prediction": "passed",
+  "predictor_bind": "127.0.0.1",
+  "external_network_calls": 0,
+  "edge_ui_installation": "not_verified",
+  "edge_ui_installation_reason": "The connected Windows automation surface exposed Chrome and the Codex in-app browser, but no Edge window or Edge browser handle.",
+  "personal_history_collected_into_repo": false
+}

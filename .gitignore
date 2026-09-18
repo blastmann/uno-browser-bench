@@ -12,6 +12,12 @@ __pycache__/
 
 # Local logs may contain absolute paths, usernames, or build commands
 logs/
+work/
+
+# Never publish personal browser exports or local extension state
+data/personal/
+results/personal/
+edge-extension/local-state/
 
 # Keep only curated public result artifacts
 results/*
@@ -23,6 +29,8 @@ results/*
 results/speed_*.part-*.jsonl
 !results/environment_public.json
 !results/quality_summary_public.json
+!results/browser_intent_smoke_summary.json
+!results/browser_intent_extension_smoke.json
 
 # Vendored packaging metadata is not needed to reproduce this benchmark
 vendor/uno/*.egg-info/

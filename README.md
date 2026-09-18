@@ -84,3 +84,39 @@ python scripts/evaluate_outputs.py --input results/uno_semantics_native_fixed_50
 - 本 benchmark 只测文本结构化 observation，不测截图视觉能力。
 - 语义数据集是确定性合成/半真实模板，不等同于真实用户流量；报告会把它标为 smoke/合成结果。
 - 0.9B 模型的 JSON 能力强依赖提示词与输出截断；所有无效 JSON 和 schema 错误都会保留原始输出以便复盘。
+
+## Browser Intent / Jev 验证进度
+
+本仓库现在同时包含 Uno 速度 benchmark 和 Browser Intent / typed-decision 实验。Browser Observation 只使用 `url/title/elements/events`，不把原始 HTML 送进模型。
+
+```powershell
+# 生成并审计 v2 数据集（相对路径输出，不含个人浏览记录）
+python scripts/generate_intent_dataset_v2.py --output data/browser_intent/observation_v2.jsonl --count-per-scenario 10 --seed 20260918
+python scripts/audit_browser_dataset.py --input data/browser_intent/observation_v2.jsonl --output data/browser_intent/audit_v2.json
+python scripts/build_decision_dataset.py --input data/browser_intent/observation_v2.jsonl --output-dir data/browser_intent/decisions_v2_public --prefixes 5,10,20,50,100,200
+python scripts/validate_decision_contract.py --input-dir data/browser_intent/decisions_v2_public --output data/browser_intent/contract_v2.json
+```
+
+NanoJev 的真实 Windows GPU smoke 需要仓库外的本地 `.venv-win-ar` 和 `.tools/NanoJev`；公开的可复核摘要见 [`results/browser_intent_smoke_summary.json`](results/browser_intent_smoke_summary.json)。该摘要明确区分了 smoke 结果、未完成的 decider 权重推理和不能外推的指标。
+
+```powershell
+pwsh -File scripts/run_browser_intent_smoke.ps1
+```
+
+## Edge 本地插件 MVP
+
+`edge-extension/` 是 Manifest V3 插件：采集导航与可选的本地历史摘要，先脱敏，再只请求 `127.0.0.1` 的预测服务；`local_predictor/server.py` 是无模型调用的确定性 heuristic baseline，用于先验证插件协议和隐私边界。
+
+```powershell
+python local_predictor/server.py
+# 然后在 Edge 的 edge://extensions 中加载 edge-extension/（开发者模式）
+```
+
+插件需要 `history`、`tabs`、`webNavigation`、`storage`、`sidePanel` 权限；关闭 `collectHistory` 后只使用当前 observation。仓库不包含任何真实浏览历史、用户配置、模型缓存或绝对路径。离线插件测试结果见 [`results/browser_intent_extension_smoke.json`](results/browser_intent_extension_smoke.json)。
+
+## 当前结论（仅限 smoke）
+
+- NanoJev + Qwen3-0.6B 在本机原生 Windows CUDA 路径可完成 Decision Head 训练和长轨迹无解码推理。
+- v2 250 条数据的审计通过，但当前独立留出样本仍太小，且 smoke 置信度接近 1；不能据此宣称“0.6B 已适合常驻 Browser semantic layer”。
+- Decider 的协议层测试通过；其 2B 权重本次下载未完成，因此没有伪造 decider 的本机精度。
+- 要回答“是否适合常驻”，下一阶段必须扩大人工/半真实标签、按用户会话而非页面随机切分，并完成校准集、长轨迹退化曲线和 Edge 真机安装验证。

@@ -1,0 +1,29 @@
+{
+  "schema_version": "browser-intent-contract-validation-v1",
+  "input_dir": "data\\browser_intent\\decisions_v2_public",
+  "rows": 871,
+  "by_split": {
+    "calibration": {
+      "rows": 37,
+      "rows_with_errors": 0
+    },
+    "dev": {
+      "rows": 35,
+      "rows_with_errors": 0
+    },
+    "ood": {
+      "rows": 33,
+      "rows_with_errors": 0
+    },
+    "test": {
+      "rows": 35,
+      "rows_with_errors": 0
+    },
+    "train": {
+      "rows": 731,
+      "rows_with_errors": 0
+    }
+  },
+  "errors": [],
+  "passed": true
+}

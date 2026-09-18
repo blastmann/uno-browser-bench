@@ -1,0 +1,50 @@
+{
+  "schema_version": "browser-intent-smoke-summary-v1",
+  "environment": {
+    "platform": "native Windows",
+    "gpu": "NVIDIA GeForce RTX 4070 Ti SUPER",
+    "torch": "2.11.0+cu128",
+    "transformers": "5.16.1",
+    "precision": "bf16"
+  },
+  "dataset": {
+    "file": "data/browser_intent/observation_v2.jsonl",
+    "rows": 250,
+    "template_families": 25,
+    "intents": 9,
+    "lengths": [5, 10, 20, 50, 100, 200],
+    "duplicate_input_groups": 0,
+    "possible_label_leakage": 0,
+    "filler_tail_rows": 68,
+    "mean_filler_ratio": 0.15212
+  },
+  "nanojev": {
+    "base_model": "Qwen/Qwen3-0.6B",
+    "training_dataset": "v2 prefix=5 smoke",
+    "train_questions": 210,
+    "head_steps": 8,
+    "full_steps": 30,
+    "training_seconds": 136.54,
+    "max_gpu_allocated_gb": 15.76,
+    "best_dev_target_ce": 0.0000023323,
+    "held_out_test": {"n": 10, "accuracy": 1.0, "nll": 0.00002388, "ece": 0.00002388},
+    "held_out_ood": {"n": 10, "accuracy": 1.0, "nll": 0.00000069, "ece": 0.00000069},
+    "long_trace_inference": {
+      "states": 29,
+      "lengths": [5, 10, 20, 50, 100, 200],
+      "forward_passes": 29,
+      "autoregressive_decode_steps": 0,
+      "elapsed_seconds_observed": 19.0,
+      "accuracy": 1.0
+    },
+    "interpretation": "Pipeline and GPU execution are verified. The tiny smoke split is not sufficient for a generalization or calibration claim; near-1.0 confidence is a warning that a larger independent test is required."
+  },
+  "decider": {
+    "repository": "https://github.com/Mapika/decider",
+    "protocol_tests": {"test_systemone": "10 passed", "test_prompt": "5 passed"},
+    "model_weight_inference": "not completed on this run",
+    "failure_reason": "Mapika/decider-2b model.safetensors download stalled at 0 bytes in the native Windows cache; no inference result was recorded or inferred.",
+    "known_project_limit": "The upstream README states the full training recipe was not run end-to-end; reported public scores are upstream evidence, not this host's measurement."
+  },
+  "status": "smoke_complete_next_step_is_independent_long_run"
+}

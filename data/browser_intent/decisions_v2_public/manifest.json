@@ -1,0 +1,60 @@
+{
+  "schema_version": "browser-intent-decisions-v1",
+  "input": "data\\browser_intent\\observation_v2.jsonl",
+  "output_dir": "data\\browser_intent\\decisions_v2_public",
+  "records_by_split": {
+    "train": 731,
+    "dev": 35,
+    "calibration": 37,
+    "test": 35,
+    "ood": 33
+  },
+  "intents": [
+    "research_topic",
+    "inspect_repository",
+    "compare_products",
+    "reply_to_email",
+    "filter_and_export",
+    "engage_with_post",
+    "read_and_share_article",
+    "dismiss_noise",
+    "manage_settings",
+    "unknown"
+  ],
+  "prefixes": [
+    5,
+    10,
+    20,
+    50,
+    100,
+    200
+  ],
+  "family_split": {
+    "v2:shop_b:compare_products": "train",
+    "v2:settings_a:manage_settings": "train",
+    "v2:noise_b:dismiss_noise": "train",
+    "v2:news_a:read_and_share_article": "train",
+    "v2:shop_c:compare_products": "train",
+    "v2:social_a:engage_with_post": "train",
+    "v2:social_c:engage_with_post": "train",
+    "v2:admin_a:filter_and_export": "train",
+    "v2:mail_a:reply_to_email": "train",
+    "v2:search_c:research_topic": "train",
+    "v2:search_a:research_topic": "train",
+    "v2:search_b:research_topic": "train",
+    "v2:repo_c:inspect_repository": "train",
+    "v2:shop_a:compare_products": "train",
+    "v2:mail_b:reply_to_email": "train",
+    "v2:repo_b:inspect_repository": "train",
+    "v2:settings_b:manage_settings": "train",
+    "v2:news_c:read_and_share_article": "train",
+    "v2:news_b:read_and_share_article": "train",
+    "v2:repo_a:inspect_repository": "train",
+    "v2:admin_c:filter_and_export": "train",
+    "v2:admin_b:filter_and_export": "dev",
+    "v2:noise_a:dismiss_noise": "calibration",
+    "v2:social_b:engage_with_post": "test",
+    "v2:mail_c:reply_to_email": "ood"
+  },
+  "warning": "This conversion supports pipeline validation and current-trajectory classification. It is not a personal T0 browser-intent dataset."
+}
