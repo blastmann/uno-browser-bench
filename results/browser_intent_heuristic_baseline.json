@@ -1,0 +1,82 @@
+{
+  "schema_version": "browser-intent-heuristic-baseline-v1",
+  "model": "heuristic-v0",
+  "rows": 250,
+  "accuracy": 0.96,
+  "predicted_intent_counts": {
+    "research_topic": 40,
+    "inspect_repository": 30,
+    "compare_products": 30,
+    "reply_to_email": 30,
+    "filter_and_export": 30,
+    "engage_with_post": 30,
+    "read_and_share_article": 20,
+    "dismiss_noise": 20,
+    "manage_settings": 20
+  },
+  "by_length": {
+    "5": {
+      "n": 42,
+      "accuracy": 0.9761904761904762
+    },
+    "10": {
+      "n": 42,
+      "accuracy": 0.9523809523809523
+    },
+    "20": {
+      "n": 42,
+      "accuracy": 0.9523809523809523
+    },
+    "50": {
+      "n": 42,
+      "accuracy": 0.9523809523809523
+    },
+    "100": {
+      "n": 41,
+      "accuracy": 0.9512195121951219
+    },
+    "200": {
+      "n": 41,
+      "accuracy": 0.975609756097561
+    }
+  },
+  "by_domain": {
+    "admin": {
+      "n": 30,
+      "accuracy": 1.0
+    },
+    "ecommerce": {
+      "n": 30,
+      "accuracy": 1.0
+    },
+    "email": {
+      "n": 30,
+      "accuracy": 1.0
+    },
+    "github": {
+      "n": 30,
+      "accuracy": 1.0
+    },
+    "news": {
+      "n": 30,
+      "accuracy": 0.6666666666666666
+    },
+    "noise": {
+      "n": 20,
+      "accuracy": 1.0
+    },
+    "search": {
+      "n": 30,
+      "accuracy": 1.0
+    },
+    "settings": {
+      "n": 20,
+      "accuracy": 1.0
+    },
+    "social": {
+      "n": 30,
+      "accuracy": 1.0
+    }
+  },
+  "note": "This is a deterministic protocol baseline, not a trained model."
+}
