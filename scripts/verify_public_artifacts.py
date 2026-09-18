@@ -108,7 +108,8 @@ def main() -> None:
     }
     output = root / args.output
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    with output.open("w", encoding="utf-8", newline="\n") as handle:
+        handle.write(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
     print(json.dumps({"output": str(args.output), "checks": checks, "all_repository_checks_pass": report["summary"]["all_repository_checks_pass"], "service_requirement_pass": service_requirement_pass}, ensure_ascii=False))
     if not report["summary"]["all_repository_checks_pass"] or not service_requirement_pass:
         raise SystemExit(1)
