@@ -39,13 +39,15 @@ def load_states(path: Path, limit: int) -> list[dict]:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--model-path", type=Path, required=True)
-    parser.add_argument("--input-dir", type=Path, required=True)
+    parser.add_argument("--input-dir", type=Path, default=None)
     parser.add_argument("--input-json", type=Path, default=None)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--splits", default="test,ood")
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--max-state-tokens", type=int, default=2048)
     args = parser.parse_args()
+    if not args.input_json and not args.input_dir:
+        parser.error("one of --input-dir or --input-json is required")
 
     from decider.infer import Decider
 

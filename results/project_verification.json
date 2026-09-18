@@ -1,0 +1,35 @@
+{
+  "schema_version": "uno-browser-bench-public-verification-v1",
+  "checks": {
+    "required_files": true,
+    "observation_jsonl_parse": true,
+    "dataset_audit": true,
+    "decision_contract": true,
+    "diagnostics_include_decider": true,
+    "no_personal_files_tracked": true,
+    "extension_host_permission_local_only": true,
+    "predictor_health_if_running": true,
+    "edge_ui_install_verified": false
+  },
+  "summary": {
+    "all_repository_checks_pass": true,
+    "service_required": true,
+    "service_requirement_pass": true,
+    "edge_ui_install_verified": false,
+    "note": "Edge UI installation remains an explicit manual/runtime gate; this verifier never reads private history or claims that gate passed."
+  },
+  "counts": {
+    "observation_rows": 250,
+    "observation_parse_errors": 0,
+    "contract_rows": 871,
+    "contract_errors": []
+  },
+  "predictor_health": {
+    "checked": true,
+    "ok": true,
+    "model": "heuristic-v0",
+    "bind": "127.0.0.1"
+  },
+  "missing_required_files": [],
+  "tracked_personal_files": []
+}

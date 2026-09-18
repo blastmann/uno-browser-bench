@@ -42,9 +42,10 @@
   "decider": {
     "repository": "https://github.com/Mapika/decider",
     "protocol_tests": {"test_systemone": "10 passed", "test_prompt": "5 passed"},
-    "model_weight_inference": "not completed on this run",
-    "failure_reason": "Mapika/decider-2b model.safetensors download stalled at 0 bytes in the native Windows cache; no inference result was recorded or inferred.",
+    "model_weight_inference": "completed on native Windows CUDA after resumable download",
+    "public_v2_test_ood": {"n": 68, "accuracy": 0.9264705882, "mean_confidence": 0.8567676471, "inference_seconds": 10.717},
+    "public_v2_lexical_ablation": {"n": 68, "accuracy": 0.0, "mean_confidence": 0.5020544118},
     "known_project_limit": "The upstream README states the full training recipe was not run end-to-end; reported public scores are upstream evidence, not this host's measurement."
   },
-  "status": "smoke_complete_next_step_is_independent_long_run"
+  "status": "smoke_complete_decider_inference_complete_edge_runtime_pending"
 }

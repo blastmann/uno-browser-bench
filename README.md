@@ -97,7 +97,7 @@ python scripts/build_decision_dataset.py --input data/browser_intent/observation
 python scripts/validate_decision_contract.py --input-dir data/browser_intent/decisions_v2_public --output data/browser_intent/contract_v2.json
 ```
 
-NanoJev 的真实 Windows GPU smoke 需要仓库外的本地 `.venv-win-ar` 和 `.tools/NanoJev`；公开的可复核摘要见 [`results/browser_intent_smoke_summary.json`](results/browser_intent_smoke_summary.json)。该摘要明确区分了 smoke 结果、未完成的 decider 权重推理和不能外推的指标。
+NanoJev 的真实 Windows GPU smoke 需要仓库外的本地 `.venv-win-ar` 和 `.tools/NanoJev`；公开的可复核摘要见 [`results/browser_intent_smoke_summary.json`](results/browser_intent_smoke_summary.json)。该摘要明确区分 smoke 结果、decider 本机推理和不能外推的指标。
 
 ```powershell
 pwsh -File scripts/run_browser_intent_smoke.ps1
@@ -116,11 +116,19 @@ python local_predictor/server.py
 
 当前状态：源码、脱敏测试、本地服务健康检查和 HTTP 预测已验证；Edge 真机加载仍需在本机手动打开 `edge://extensions/` 后选择上述目录。自动化浏览器策略不允许代理访问该内部管理页，因此未把未发生的 UI 安装写成已完成。
 
+仓库级公开产物审计可运行：
+
+```powershell
+python scripts/verify_public_artifacts.py
+```
+
+该审计会明确输出 `edge_ui_install_verified: false`，不会把未完成的 Edge UI 验证隐藏掉；decider 的可复现实验入口见 `scripts/run_decider_browser_smoke.py`。
+
 ## 当前结论（仅限 smoke）
 
 - NanoJev + Qwen3-0.6B 在本机原生 Windows CUDA 路径可完成 Decision Head 训练和长轨迹无解码推理。
 - v2 250 条数据的审计通过，但当前独立留出样本仍太小，且 smoke 置信度接近 1；不能据此宣称“0.6B 已适合常驻 Browser semantic layer”。
 - 同一 v2 上的 `heuristic-v0` 已达到 96% 当前意图准确率，说明模板中的标题/元素语义仍然很强；后续必须加入跨域、模糊标题和人工会话标签，否则这个分数不能代表真实用户预测能力。
 - 更严格的 lexical ablation 把 v2 checkpoint 的准确率从 100% 降到 0%，确认当前合成 benchmark 存在 shortcut；诊断细节见 [`results/browser_intent_model_diagnostics.json`](results/browser_intent_model_diagnostics.json)。
-- Decider 的协议层测试通过；其 2B 权重本次下载未完成，因此没有伪造 decider 的本机精度。
+- Decider 的协议层测试和 2B 权重本机 CUDA 推理已完成；公开 v2 test+OOD 为 68 条、意图准确率 92.65%，但 lexical ablation 为 0%，因此仍不能外推为真实用户能力。
 - 要回答“是否适合常驻”，下一阶段必须扩大人工/半真实标签、按用户会话而非页面随机切分，并完成校准集、长轨迹退化曲线和 Edge 真机安装验证。
