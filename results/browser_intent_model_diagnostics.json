@@ -1,0 +1,23 @@
+{
+  "schema_version": "browser-intent-model-diagnostics-v1",
+  "large_smoke": {
+    "rows": 1000,
+    "template_families": 25,
+    "train_dev_calibration_test_ood": [840, 40, 40, 40, 40],
+    "model": "Qwen/Qwen3-0.6B + NanoJev Decision Head",
+    "full_steps": 100,
+    "head_steps": 12,
+    "training_seconds": 617.85,
+    "test": {"n": 40, "accuracy": 1.0, "mean_confidence": 1.0},
+    "ood": {"n": 40, "accuracy": 1.0, "mean_confidence": 1.0},
+    "calibration_target_ce": 0.03875048
+  },
+  "lexical_ablation": {
+    "n": 80,
+    "input": "URL/title/element text/event action and target replaced by placeholders; only trace length/structure remained",
+    "accuracy": 0.0,
+    "mean_confidence": 0.80924245,
+    "interpretation": "The synthetic benchmark contains strong lexical/template shortcuts. The raw 100% score must not be treated as real-user intent accuracy."
+  },
+  "decision": "Expand human/session labels and add paraphrase, cross-domain, ambiguous-title and counterfactual traces before making a deployment claim."
+}
