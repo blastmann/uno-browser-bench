@@ -42,5 +42,5 @@
 - P0：已完成，见 `data/browser_intent/audit_v2.json` 和 `data/browser_intent/contract_v2.json`。
 - P1：NanoJev smoke 已完成；原生 Windows CUDA 可执行，见 `results/browser_intent_smoke_summary.json`。
 - P1：decider 协议单元测试已完成；公开权重本次下载未完成，未生成伪造的模型精度。
-- P5：插件离线测试和 localhost heuristic 服务已完成；Edge UI 安装验证等待本机 Edge 连接句柄。
+- P5：插件离线测试、localhost heuristic 服务和 HTTP 预测已完成；Edge UI 安装验证仍待在本机手动打开 `edge://extensions/` 后加载未打包扩展。当前浏览器自动化策略不允许代理访问该内部页面，因此不将未发生的安装写成已完成。
 - P2/P3/P4/P6：仍需更大的独立标签集、会话级真实/半真实 trace、温度校准和真机安装后持续运行。

@@ -114,6 +114,8 @@ python local_predictor/server.py
 
 插件需要 `history`、`tabs`、`webNavigation`、`storage`、`sidePanel` 权限；关闭 `collectHistory` 后只使用当前 observation。仓库不包含任何真实浏览历史、用户配置、模型缓存或绝对路径。离线插件测试结果见 [`results/browser_intent_extension_smoke.json`](results/browser_intent_extension_smoke.json)。
 
+当前状态：源码、脱敏测试、本地服务健康检查和 HTTP 预测已验证；Edge 真机加载仍需在本机手动打开 `edge://extensions/` 后选择上述目录。自动化浏览器策略不允许代理访问该内部管理页，因此未把未发生的 UI 安装写成已完成。
+
 ## 当前结论（仅限 smoke）
 
 - NanoJev + Qwen3-0.6B 在本机原生 Windows CUDA 路径可完成 Decision Head 训练和长轨迹无解码推理。
