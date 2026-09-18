@@ -11,6 +11,8 @@ import argparse
 import json
 import math
 import re
+import threading
+import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Any
 
@@ -38,6 +40,9 @@ KEYWORDS = {
     "dismiss_noise": ("cookie", "notice", "consent", "loading", "interstitial", "banner", "弹窗"),
     "manage_settings": ("settings", "privacy", "options", "toggle", "permission", "设置", "隐私"),
 }
+
+_AUDIT_LOCK = threading.Lock()
+_AUDIT = {"request_count": 0, "last": None}
 
 
 def softmax(values: list[float]) -> list[float]:
@@ -77,6 +82,24 @@ def predict(observation: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def record_audit(payload: dict[str, Any], observation: dict[str, Any], result: dict[str, Any]) -> None:
+    """Keep only non-content protocol evidence for local runtime verification."""
+    with _AUDIT_LOCK:
+        _AUDIT["request_count"] += 1
+        _AUDIT["last"] = {
+            "received_at": time.time(),
+            "source": payload.get("source"),
+            "reason": payload.get("reason"),
+            "observation_keys": sorted(str(key) for key in observation.keys()),
+            "elements_count": len(observation.get("elements", []) or []),
+            "events_count": len(observation.get("events", []) or []),
+            "has_title": bool(observation.get("title")),
+            "has_url": bool(observation.get("url")),
+            "prediction": result.get("intent"),
+            "network_calls": 0,
+        }
+
+
 class Handler(BaseHTTPRequestHandler):
     server_version = "BrowserIntentLocal/0.1"
 
@@ -96,6 +119,10 @@ class Handler(BaseHTTPRequestHandler):
         if self.path == "/healthz":
             self._json(200, {"ok": True, "model": "heuristic-v0", "bind": "127.0.0.1"})
             return
+        if self.path == "/debug/last":
+            with _AUDIT_LOCK:
+                self._json(200, {"request_count": _AUDIT["request_count"], "last": _AUDIT["last"], "privacy": "content-free local audit"})
+            return
         self._json(404, {"error": "not_found"})
 
     def do_POST(self) -> None:  # noqa: N802
@@ -107,7 +134,9 @@ class Handler(BaseHTTPRequestHandler):
             if size > 2_000_000:
                 raise ValueError("request_too_large")
             payload = json.loads(self.rfile.read(size))
-            result = predict(payload.get("observation", payload if isinstance(payload, dict) else {}))
+            observation = payload.get("observation", payload if isinstance(payload, dict) else {})
+            result = predict(observation)
+            record_audit(payload, observation, result)
             result["updatedAt"] = payload.get("createdAt")
             self._json(200, result)
         except Exception as error:  # keep the extension protocol deterministic

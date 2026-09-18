@@ -45,6 +45,7 @@ def main() -> None:
         "results/browser_intent_smoke_summary.json",
         "results/browser_intent_model_diagnostics.json",
         "results/browser_intent_extension_smoke.json",
+        "results/browser_intent_edge_runtime_smoke.json",
         "edge-extension/manifest.json",
         "local_predictor/server.py",
     ]
@@ -53,6 +54,7 @@ def main() -> None:
     contract = read_json(root / "data/browser_intent/contract_v2.json")
     audit = read_json(root / "data/browser_intent/audit_v2.json")
     diagnostic = read_json(root / "results/browser_intent_model_diagnostics.json")
+    edge_runtime = read_json(root / "results/browser_intent_edge_runtime_smoke.json")
     manifest = read_json(root / "edge-extension/manifest.json")
     personal_tracked = subprocess.run(
         ["git", "ls-files", "results/personal"], cwd=root, check=True, capture_output=True, text=True
@@ -73,9 +75,14 @@ def main() -> None:
         "no_personal_files_tracked": not personal_tracked,
         "extension_host_permission_local_only": manifest.get("host_permissions") == ["http://127.0.0.1:8765/*"],
         "predictor_health_if_running": health["ok"] and health["bind"] == "127.0.0.1",
-        "edge_ui_install_verified": False,
+        "edge_runtime_navigation_verified": edge_runtime.get("extension_runtime", {}).get("loaded") is True
+        and edge_runtime.get("extension_runtime", {}).get("requests_observed", 0) >= 1
+        and edge_runtime.get("extension_runtime", {}).get("last_request", {}).get("source") == "edge-extension",
+        "edge_ui_install_verified": edge_runtime.get("extension_runtime", {}).get("loaded") is True
+        and edge_runtime.get("extension_runtime", {}).get("requests_observed", 0) >= 1,
+        "edge_startup_runtime_verified": edge_runtime.get("extension_runtime", {}).get("startup_runtime_event_observed") is True,
     }
-    repository_checks = {key: value for key, value in checks.items() if key not in {"predictor_health_if_running", "edge_ui_install_verified"}}
+    repository_checks = {key: value for key, value in checks.items() if key not in {"predictor_health_if_running", "edge_runtime_navigation_verified", "edge_ui_install_verified", "edge_startup_runtime_verified"}}
     service_requirement_pass = (not args.require_service) or checks["predictor_health_if_running"]
     report = {
         "schema_version": "uno-browser-bench-public-verification-v1",
@@ -84,8 +91,10 @@ def main() -> None:
             "all_repository_checks_pass": all(repository_checks.values()),
             "service_required": args.require_service,
             "service_requirement_pass": service_requirement_pass,
-            "edge_ui_install_verified": False,
-            "note": "Edge UI installation remains an explicit manual/runtime gate; this verifier never reads private history or claims that gate passed.",
+            "edge_runtime_navigation_verified": checks["edge_runtime_navigation_verified"],
+            "edge_ui_install_verified": checks["edge_ui_install_verified"],
+            "edge_startup_runtime_verified": checks["edge_startup_runtime_verified"],
+            "note": "Navigation runtime is verified from a content-free localhost audit. Startup runtime still requires a separate browser restart and is never inferred from navigation.",
         },
         "counts": {
             "observation_rows": observation_rows,

@@ -1,0 +1,29 @@
+{
+  "schema_version": "browser-intent-edge-runtime-smoke-v1",
+  "browser": "Microsoft Edge",
+  "extension_runtime": {
+    "loaded": true,
+    "source": "edge-extension",
+    "test_navigation": "public_example_domain",
+    "requests_observed": 1,
+    "last_request": {
+      "reason": "navigation",
+      "source": "edge-extension",
+      "observation_keys": ["elements", "events", "title", "url"],
+      "elements_count": 2,
+      "events_count": 35,
+      "prediction": "inspect_repository",
+      "network_calls": 0
+    },
+    "startup_listener_present": true,
+    "startup_runtime_event_observed": false
+  },
+  "privacy": {
+    "raw_urls_written": false,
+    "raw_titles_written": false,
+    "raw_history_written": false,
+    "network_calls": 0,
+    "local_bind": "127.0.0.1"
+  },
+  "interpretation": "The unpacked Edge extension is loaded and its navigation path reached the localhost predictor. Browser-startup hook is present in the service worker but was not separately exercised by restarting the user's browser."
+}

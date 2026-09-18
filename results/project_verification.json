@@ -9,14 +9,18 @@
     "no_personal_files_tracked": true,
     "extension_host_permission_local_only": true,
     "predictor_health_if_running": true,
-    "edge_ui_install_verified": false
+    "edge_runtime_navigation_verified": true,
+    "edge_ui_install_verified": true,
+    "edge_startup_runtime_verified": false
   },
   "summary": {
     "all_repository_checks_pass": true,
     "service_required": true,
     "service_requirement_pass": true,
-    "edge_ui_install_verified": false,
-    "note": "Edge UI installation remains an explicit manual/runtime gate; this verifier never reads private history or claims that gate passed."
+    "edge_runtime_navigation_verified": true,
+    "edge_ui_install_verified": true,
+    "edge_startup_runtime_verified": false,
+    "note": "Navigation runtime is verified from a content-free localhost audit. Startup runtime still requires a separate browser restart and is never inferred from navigation."
   },
   "counts": {
     "observation_rows": 250,

@@ -34,6 +34,7 @@ results/speed_*.part-*.jsonl
 !results/browser_intent_heuristic_baseline.json
 !results/browser_intent_model_diagnostics.json
 !results/project_verification.json
+!results/browser_intent_edge_runtime_smoke.json
 
 # Vendored packaging metadata is not needed to reproduce this benchmark
 vendor/uno/*.egg-info/

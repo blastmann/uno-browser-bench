@@ -114,7 +114,7 @@ python local_predictor/server.py
 
 插件需要 `history`、`tabs`、`webNavigation`、`storage`、`sidePanel` 权限；关闭 `collectHistory` 后只使用当前 observation。仓库不包含任何真实浏览历史、用户配置、模型缓存或绝对路径。离线插件测试结果见 [`results/browser_intent_extension_smoke.json`](results/browser_intent_extension_smoke.json)。
 
-当前状态：源码、脱敏测试、本地服务健康检查和 HTTP 预测已验证；Edge 真机加载仍需在本机手动打开 `edge://extensions/` 后选择上述目录。自动化浏览器策略不允许代理访问该内部管理页，因此未把未发生的 UI 安装写成已完成。
+当前状态：源码、脱敏测试、本地服务健康检查、HTTP 预测和 Edge 真机导航闭环已验证。Edge 扩展确实向 localhost 发出了脱敏 observation；浏览器启动钩子已存在，但尚未通过重启用户浏览器单独验证。脱敏运行证据见 [`results/browser_intent_edge_runtime_smoke.json`](results/browser_intent_edge_runtime_smoke.json)。
 
 仓库级公开产物审计可运行：
 
@@ -122,7 +122,7 @@ python local_predictor/server.py
 python scripts/verify_public_artifacts.py
 ```
 
-该审计会明确输出 `edge_ui_install_verified: false`，不会把未完成的 Edge UI 验证隐藏掉；decider 的可复现实验入口见 `scripts/run_decider_browser_smoke.py`。
+该审计会分别输出 `edge_ui_install_verified`、`edge_runtime_navigation_verified` 和 `edge_startup_runtime_verified`；decider 的可复现实验入口见 `scripts/run_decider_browser_smoke.py`。
 
 ## 当前结论（仅限 smoke）
 
