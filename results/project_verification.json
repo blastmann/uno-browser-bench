@@ -11,7 +11,8 @@
     "predictor_health_if_running": true,
     "edge_runtime_navigation_verified": true,
     "edge_ui_install_verified": true,
-    "edge_startup_runtime_verified": false
+    "edge_startup_runtime_verified": false,
+    "edge_startup_hook_unit_verified": true
   },
   "summary": {
     "all_repository_checks_pass": true,
@@ -20,6 +21,7 @@
     "edge_runtime_navigation_verified": true,
     "edge_ui_install_verified": true,
     "edge_startup_runtime_verified": false,
+    "edge_startup_hook_unit_verified": true,
     "note": "Navigation runtime is verified from a content-free localhost audit. Startup runtime still requires a separate browser restart and is never inferred from navigation."
   },
   "counts": {

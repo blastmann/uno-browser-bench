@@ -77,12 +77,13 @@ def main() -> None:
         "predictor_health_if_running": health["ok"] and health["bind"] == "127.0.0.1",
         "edge_runtime_navigation_verified": edge_runtime.get("extension_runtime", {}).get("loaded") is True
         and edge_runtime.get("extension_runtime", {}).get("requests_observed", 0) >= 1
-        and edge_runtime.get("extension_runtime", {}).get("last_request", {}).get("source") == "edge-extension",
+        and edge_runtime.get("extension_runtime", {}).get("navigation_request", {}).get("source") == "edge-extension",
         "edge_ui_install_verified": edge_runtime.get("extension_runtime", {}).get("loaded") is True
         and edge_runtime.get("extension_runtime", {}).get("requests_observed", 0) >= 1,
         "edge_startup_runtime_verified": edge_runtime.get("extension_runtime", {}).get("startup_runtime_event_observed") is True,
+        "edge_startup_hook_unit_verified": edge_runtime.get("extension_runtime", {}).get("startup_hook_unit_test", {}).get("passed") is True,
     }
-    repository_checks = {key: value for key, value in checks.items() if key not in {"predictor_health_if_running", "edge_runtime_navigation_verified", "edge_ui_install_verified", "edge_startup_runtime_verified"}}
+    repository_checks = {key: value for key, value in checks.items() if key not in {"predictor_health_if_running", "edge_runtime_navigation_verified", "edge_ui_install_verified", "edge_startup_runtime_verified", "edge_startup_hook_unit_verified"}}
     service_requirement_pass = (not args.require_service) or checks["predictor_health_if_running"]
     report = {
         "schema_version": "uno-browser-bench-public-verification-v1",
@@ -94,6 +95,7 @@ def main() -> None:
             "edge_runtime_navigation_verified": checks["edge_runtime_navigation_verified"],
             "edge_ui_install_verified": checks["edge_ui_install_verified"],
             "edge_startup_runtime_verified": checks["edge_startup_runtime_verified"],
+            "edge_startup_hook_unit_verified": checks["edge_startup_hook_unit_verified"],
             "note": "Navigation runtime is verified from a content-free localhost audit. Startup runtime still requires a separate browser restart and is never inferred from navigation.",
         },
         "counts": {

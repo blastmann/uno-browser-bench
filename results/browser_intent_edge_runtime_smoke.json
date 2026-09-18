@@ -5,14 +5,22 @@
     "loaded": true,
     "source": "edge-extension",
     "test_navigation": "public_example_domain",
-    "requests_observed": 1,
-    "last_request": {
+    "requests_observed": 2,
+    "navigation_request": {
       "reason": "navigation",
       "source": "edge-extension",
       "observation_keys": ["elements", "events", "title", "url"],
       "elements_count": 2,
       "events_count": 35,
       "prediction": "inspect_repository",
+      "network_calls": 0
+    },
+    "startup_hook_unit_test": {
+      "passed": true,
+      "reason": "browser_startup",
+      "source": "edge-extension",
+      "synthetic_state": true,
+      "events_count": 1,
       "network_calls": 0
     },
     "startup_listener_present": true,
@@ -25,5 +33,5 @@
     "network_calls": 0,
     "local_bind": "127.0.0.1"
   },
-  "interpretation": "The unpacked Edge extension is loaded and its navigation path reached the localhost predictor. Browser-startup hook is present in the service worker but was not separately exercised by restarting the user's browser."
+  "interpretation": "The unpacked Edge extension is loaded and its navigation path reached the localhost predictor. The browser-startup hook also passed with synthetic state through the real localhost service; a physical restart of the user's browser was intentionally not performed."
 }

@@ -114,7 +114,13 @@ python local_predictor/server.py
 
 插件需要 `history`、`tabs`、`webNavigation`、`storage`、`sidePanel` 权限；关闭 `collectHistory` 后只使用当前 observation。仓库不包含任何真实浏览历史、用户配置、模型缓存或绝对路径。离线插件测试结果见 [`results/browser_intent_extension_smoke.json`](results/browser_intent_extension_smoke.json)。
 
-当前状态：源码、脱敏测试、本地服务健康检查、HTTP 预测和 Edge 真机导航闭环已验证。Edge 扩展确实向 localhost 发出了脱敏 observation；浏览器启动钩子已存在，但尚未通过重启用户浏览器单独验证。脱敏运行证据见 [`results/browser_intent_edge_runtime_smoke.json`](results/browser_intent_edge_runtime_smoke.json)。
+当前状态：源码、脱敏测试、本地服务健康检查、HTTP 预测和 Edge 真机导航闭环已验证。Edge 扩展确实向 localhost 发出了脱敏 observation；`onStartup` 钩子也通过了合成状态 + 真实 localhost 服务的测试，但没有为了测试而重启用户浏览器。脱敏运行证据见 [`results/browser_intent_edge_runtime_smoke.json`](results/browser_intent_edge_runtime_smoke.json)。
+
+启动钩子测试（需要本地预测服务运行）：
+
+```powershell
+node tests/extension/startup.test.mjs
+```
 
 仓库级公开产物审计可运行：
 
@@ -131,4 +137,4 @@ python scripts/verify_public_artifacts.py
 - 同一 v2 上的 `heuristic-v0` 已达到 96% 当前意图准确率，说明模板中的标题/元素语义仍然很强；后续必须加入跨域、模糊标题和人工会话标签，否则这个分数不能代表真实用户预测能力。
 - 更严格的 lexical ablation 把 v2 checkpoint 的准确率从 100% 降到 0%，确认当前合成 benchmark 存在 shortcut；诊断细节见 [`results/browser_intent_model_diagnostics.json`](results/browser_intent_model_diagnostics.json)。
 - Decider 的协议层测试和 2B 权重本机 CUDA 推理已完成；公开 v2 test+OOD 为 68 条、意图准确率 92.65%，但 lexical ablation 为 0%，因此仍不能外推为真实用户能力。
-- 要回答“是否适合常驻”，下一阶段必须扩大人工/半真实标签、按用户会话而非页面随机切分，并完成校准集、长轨迹退化曲线和 Edge 真机安装验证。
+- 要回答“是否适合常驻”，下一阶段仍必须扩大人工/半真实标签、按用户会话而非页面随机切分，并完善校准集与长轨迹退化曲线；Edge 插件导航和启动处理链路已经验证。
