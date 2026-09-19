@@ -1,0 +1,21 @@
+{
+  "schema_version": "public-model-comparison-v1",
+  "generated_on": "2026-09-19",
+  "files": [
+    "aggregate_metrics.json",
+    "per_example_metrics.jsonl",
+    "report.md",
+    "README.md"
+  ],
+  "records": 3828,
+  "data_policy": "aggregate metrics and anonymized outcome metadata only; no browser states or model choices",
+  "privacy": {
+    "raw_states_published": false,
+    "raw_html_published": false,
+    "raw_urls_published": false,
+    "raw_candidate_text_published": false,
+    "raw_model_choices_published": false,
+    "api_credentials_published": false,
+    "identifiers": "dataset-scoped truncated SHA-256 hashes"
+  }
+}
