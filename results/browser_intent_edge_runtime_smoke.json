@@ -26,6 +26,14 @@
     "startup_listener_present": true,
     "startup_runtime_event_observed": false
   },
+  "cold_restart_observation": {
+    "browser_connector_session_changed": true,
+    "localhost_request_count_before_restart": 5,
+    "localhost_request_count_after_restart": 9,
+    "additional_requests_after_restart": 4,
+    "startup_reason_directly_retained": false,
+    "interpretation": "A new Edge connector session appeared after the manual restart and four extension requests arrived. The current content-free audit endpoint retains only the last request, which was navigation, so the startup reason is not uniquely separated in this run."
+  },
   "privacy": {
     "raw_urls_written": false,
     "raw_titles_written": false,
