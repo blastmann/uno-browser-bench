@@ -43,4 +43,14 @@
 - P1：NanoJev smoke 已完成；原生 Windows CUDA 可执行，见 `results/browser_intent_smoke_summary.json`。
 - P1：decider 协议单元测试和公开 2B 权重本机 CUDA 推理已完成；公开 v2 test+OOD 为 68 条、整体意图准确率 92.65%，lexical ablation 为 0%，结果见 `results/browser_intent_model_diagnostics.json`。
 - P5：插件离线测试、localhost heuristic 服务、Edge 扩展加载和导航触发已完成；localhost 收到的运行证据不含原始 URL、标题或历史内容。`onStartup` 钩子已通过合成状态 + 真实 localhost 服务测试；Computer Use 标签接口未能关闭 Edge 窗口，因此冷启动事件仍未声称完成。
-- P2/P3/P4/P6：仍需更大的独立标签集、会话级真实/半真实 trace、温度校准和真机安装后持续运行。
+- 基线阶段的 P2/P3/P4/P6 缺口已在后续本地复测中逐项量测；当前结论仍受弱标签、校准质量和长轨迹退化限制。
+
+## 本地 P2–P6 复测状态
+
+后续本机复测已写入被 Git 忽略的 `work/browser-intent-v3/`，入口与判定脚本见
+[`docs/p2-p6-local-report.md`](p2-p6-local-report.md)。当前证据为：
+
+- P2：修正为 family-level 分层 split 后，结构审计通过；真实 Edge trace 仍明确标为 observed-next-category 弱标签。
+- P3：Decider-2B 在独立 calibration split 上拟合温度，但 test/OOD ECE 仍未达到自动门控门槛。
+- P4：5/10/20/50/100/200 events 曲线已实际生成，test 长轨迹出现明显退化。
+- P6：当前定级为“候选排序/升级路由辅助，暂不适合未经升级的常驻 semantic layer”。

@@ -30,22 +30,34 @@ PREFIX_LENGTHS = (5, 10, 20, 50, 100, 200)
 
 
 def family_split_map(family_ids: list[str]) -> dict[str, str]:
-    """Assign whole source families to every split when the set is small.
+    """Assign whole source families to deterministic, broad splits.
 
-    Hash-threshold splitting can accidentally produce an empty calibration or
-    test split with only a handful of synthetic families. A stable sorted
-    assignment makes that failure visible and guarantees coverage. The train
-    split receives the remaining families after reserving one family for each
-    non-train split.
+    The earlier one-family-per-held-out-split layout was leakage-safe but made
+    calibration/test/OOD each represent only one template family. Keep one
+    family per intent in train, then distribute the remaining whole families
+    round-robin across the four held-out splits. This keeps all known intents
+    represented in train while broadening calibration/test/OOD.
     """
     ordered = sorted(set(family_ids), key=lambda value: hashlib.sha256(value.encode("utf-8")).hexdigest())
     if len(ordered) < 5:
         return {family: "train" for family in ordered}
-    reserved = {
-        family: split
-        for family, split in zip(ordered[-4:], ("dev", "calibration", "test", "ood"))
-    }
-    return {family: reserved.get(family, "train") for family in ordered}
+    by_intent: dict[str, list[str]] = {}
+    for family in ordered:
+        intent = family.rsplit(":", 1)[-1]
+        by_intent.setdefault(intent, []).append(family)
+
+    mapping: dict[str, str] = {}
+    remaining: list[str] = []
+    for intent in sorted(by_intent):
+        families = by_intent[intent]
+        mapping[families[0]] = "train"
+        remaining.extend(families[1:])
+
+    held_out_splits = ("dev", "calibration", "test", "ood")
+    remaining.sort(key=lambda value: hashlib.sha256(value.encode("utf-8")).hexdigest())
+    for index, family in enumerate(remaining):
+        mapping[family] = held_out_splits[index % len(held_out_splits)]
+    return mapping
 
 
 def load_rows(path: Path) -> list[dict[str, Any]]:
@@ -142,6 +154,7 @@ def main() -> None:
         "intents": INTENTS,
         "prefixes": prefixes,
         "family_split": split_by_family,
+        "split_strategy": "family_hash_round_robin_v2",
         "warning": "This conversion supports pipeline validation and current-trajectory classification. It is not a personal T0 browser-intent dataset.",
     }
     (args.output_dir / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

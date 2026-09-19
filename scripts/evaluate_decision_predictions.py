@@ -20,7 +20,7 @@ def ece(rows: list[dict[str, Any]], bins: int = 10) -> float:
     total = 0.0
     for b in range(bins):
         lo, hi = b / bins, (b + 1) / bins
-        bucket = [r for r in rows if lo <= r["confidence"] < hi or (b == bins - 1 and r["confidence"] <= hi)]
+        bucket = [r for r in rows if lo <= r["confidence"] < hi or (b == bins - 1 and lo <= r["confidence"] <= hi)]
         if bucket:
             total += len(bucket) / len(rows) * abs(mean([r["confidence"] for r in bucket]) - mean([r["correct"] for r in bucket]))
     return total
